@@ -12,8 +12,8 @@ def find_dict_with_name(dict_list, name):
 
 def validate_entry(text):
     '''проверка введенного текста в окно на валидность,
-    то есть проверка не превышения максимальной длины текста v.max_len_name_in_scoreboard'''
-    if len(text) > v.max_len_name_in_scoreboard:
+    то есть проверка не превышения максимальной длины текста v.MAX_LEN_NAME_IN_SCOREBOARD'''
+    if len(text) > v.MAX_LEN_NAME_IN_SCOREBOARD:
         return False
     else:
         return True
@@ -25,16 +25,16 @@ class Menu:
         self.root.title("Snake Game")
         self.root.columnconfigure(0, weight=1)
         self.root.configure(bg="navy")
-        self.root.geometry(f"{v.menu_width}x{v.menu_height}+{v.menu_left_bound}+{v.menu_upper_bound}")
-        self.button_start = tk.Button(self.root, text='Start', width=v.buttons_size_x, height=v.buttons_size_y, command=self.on_button_start_click)
-        self.button_start.pack(pady=v.dist_between_buttons)
-        self.button_settings = tk.Button(self.root, text='Settings', width=v.buttons_size_x, height=v.buttons_size_y, command=self.on_button_settings_click)
-        self.button_settings.pack(pady=v.dist_between_buttons)
-        self.button_table_records = tk.Button(self.root, text='Table of Records', width=v.buttons_size_x, height=v.buttons_size_y,
+        self.root.geometry(f"{v.MENU_WIDTH}x{v.MENU_HEIGHT}+{v.MENU_LEFT_BOUND}+{v.MENU_UPPER_BOUND}")
+        self.button_start = tk.Button(self.root, text='Start', width=v.BUTTONS_SIZE_X, height=v.BUTTONS_SIZE_Y, command=self.on_button_start_click)
+        self.button_start.pack(pady=v.DIST_BETWEEN_BUTTONS)
+        self.button_settings = tk.Button(self.root, text='Settings', width=v.BUTTONS_SIZE_X, height=v.BUTTONS_SIZE_Y, command=self.on_button_settings_click)
+        self.button_settings.pack(pady=v.DIST_BETWEEN_BUTTONS)
+        self.button_table_records = tk.Button(self.root, text='Table of Records', width=v.BUTTONS_SIZE_X, height=v.BUTTONS_SIZE_Y,
                                     command=self.on_button_table_records_click)
-        self.button_table_records.pack(pady=v.dist_between_buttons)
-        self.button_exit = tk.Button(self.root, text='Quit game', width=v.buttons_size_x, height=v.buttons_size_y, command=self.on_button_quit_click)
-        self.button_exit.pack(pady=v.dist_between_buttons)
+        self.button_table_records.pack(pady=v.DIST_BETWEEN_BUTTONS)
+        self.button_exit = tk.Button(self.root, text='Quit game', width=v.BUTTONS_SIZE_X, height=v.BUTTONS_SIZE_Y, command=self.on_button_quit_click)
+        self.button_exit.pack(pady=v.DIST_BETWEEN_BUTTONS)
 
         self.root.mainloop()
 
@@ -51,8 +51,8 @@ class Menu:
         self.root.withdraw()
         game_snake = SnakeGame()
         new_window = tk.Toplevel(self.root)
-        new_window.geometry(f"+{v.menu_left_bound}+{v.menu_upper_bound}")
-        text_entry = tk.Entry(new_window, width=v.after_game_entry_button_width, validate="key", validatecommand=(new_window.register(validate_entry), '%P'), invalidcommand=lambda: print("Too long name!"), textvariable=v)
+        new_window.geometry(f"+{v.MENU_LEFT_BOUND}+{v.MENU_UPPER_BOUND}")
+        text_entry = tk.Entry(new_window, width=v.AFTER_GAME_ENTRY_BUTTON_WIDTH, validate="key", validatecommand=(new_window.register(validate_entry), '%P'), invalidcommand=lambda: print("Too long name!"), textvariable=v)
         text_entry.pack()
         save_button = tk.Button(new_window, text="Enter your name", command=lambda: self.add_to_scoreboard(new_window, text_entry, game_snake.prev_score))
         save_button.pack()
@@ -98,7 +98,7 @@ class Menu:
         '''открытие таблицы рекордов и скрытие меню'''
         print("This is table of records!")
         self.root.withdraw()
-        TableOfRecords(self.root, "table_of_records_results.txt")
+        TableOfRecords(self.root, "src/table_of_records_results.txt")
 
     def on_button_quit_click(self):
         '''закрытие меню и завершение программы'''

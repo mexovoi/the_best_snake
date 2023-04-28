@@ -28,8 +28,8 @@ def intersect_rect_with_rect_around_vector(rect_one, width_of_zone, start_point:
     '''проверка пересечения прямоугольника rect_one с прямогульником образованным движением квадрата с центром в start_point с длиной стороны width_of_zone * 2
     при его движении на вектор skelet_of_rect'''
     answer = False
-    answer = answer or intersect_rect_with_rect_around_point(rect_one, width_of_zone - v.snake_start_speed * v.beautiful_snake, start_point)
-    intersect_rect_with_rect_around_point(rect_one, width_of_zone - v.snake_start_speed * v.beautiful_snake, start_point + skeleton_of_rect)
+    answer = answer or intersect_rect_with_rect_around_point(rect_one, width_of_zone - v.SNAKE_START_SPEED * v.BEAUTIFUL_SNAKE, start_point)
+    intersect_rect_with_rect_around_point(rect_one, width_of_zone - v.SNAKE_START_SPEED * v.BEAUTIFUL_SNAKE, start_point + skeleton_of_rect)
     if skeleton_of_rect.x == 0:
         answer = answer or rect_one.colliderect(make_rectangle(start_point.x, start_point.y, skeleton_of_rect.x + width_of_zone, skeleton_of_rect.y))
         answer = answer or rect_one.colliderect(make_rectangle(start_point.x, start_point.y, skeleton_of_rect.x - width_of_zone, skeleton_of_rect.y))

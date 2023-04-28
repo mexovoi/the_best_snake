@@ -6,7 +6,7 @@ class SettingsWindow(tk.Toplevel):
         '''инициализация окна настроек'''
         super().__init__(parent)
         self.parent = parent
-        self.geometry(f"{v.menu_width}x{v.menu_height}+{v.menu_left_bound}+{v.menu_upper_bound}")
+        self.geometry(f"{v.MENU_WIDTH}x{v.MENU_HEIGHT}+{v.MENU_LEFT_BOUND}+{v.MENU_UPPER_BOUND}")
         self.title("Settings")
         self.difficulty_names = {
             1: "Easy",
@@ -17,7 +17,7 @@ class SettingsWindow(tk.Toplevel):
         difficulty_label.pack()
 
         self.difficulty_slider = tk.Scale(self, from_=1, to=3, orient=tk.HORIZONTAL, 
-                                  length=v.settings_slider_length,
+                                  length=v.SETTINGS_SLIDER_LENGTH,
                                   label=self.difficulty_names[1],
                                   showvalue=False)
 
@@ -32,7 +32,7 @@ class SettingsWindow(tk.Toplevel):
 
         self.difficulty_slider.config(command=update_difficulty_label)
         
-        colors = v.settings_colors_for_snake
+        colors = v.SETTINGS_COLORS_FOR_SNAKE
         
         color_label = tk.Label(self, text="Choose snake's color")
         color_label.pack()
@@ -62,29 +62,29 @@ class SettingsWindow(tk.Toplevel):
         color = self.color_choice.get()
         
         if difficulty == 1:
-            v.snake_start_speed = 1
-            v.max_snake_speed = 5
-            v.max_start_amount_of_walls = 7
-            v.max_wall_random_length = v.block_size * 15
-            v.frames_between_speed_boosts = 360
-            v.increase_frames_between_speed_boosts = 600
-            v.max_start_amount_of_food = 20
+            v.SNAKE_START_SPEED = 1
+            v.MAX_SNAKE_SPEED = 5
+            v.MAX_START_AMOUNT_OF_WALLS = 7
+            v.MAX_WALL_RANDOM_LENGTH = v.BLOCK_SIZE * 15
+            v.FRAMES_BETWEEN_SPEED_BOOSTS = 360
+            v.INCREASE_FRAMES_BETWEEN_SPEED_BOOSTS = 600
+            v.MAX_START_AMOUNT_OF_FOOD = 20
         elif difficulty == 2:
-            v.snake_start_speed = 2
-            v.max_snake_speed = 9
-            v.max_start_amount_of_walls = 10
-            v.max_wall_random_length = v.block_size * 20
-            v.frames_between_speed_boosts = 300
-            v.increase_frames_between_speed_boosts = 300
-            v.max_start_amount_of_food = 10
+            v.SNAKE_START_SPEED = 2
+            v.MAX_SNAKE_SPEED = 9
+            v.MAX_START_AMOUNT_OF_WALLS = 10
+            v.MAX_WALL_RANDOM_LENGTH = v.BLOCK_SIZE * 20
+            v.FRAMES_BETWEEN_SPEED_BOOSTS = 300
+            v.INCREASE_FRAMES_BETWEEN_SPEED_BOOSTS = 300
+            v.MAX_START_AMOUNT_OF_FOOD = 10
         elif difficulty == 3:
-            v.snake_start_speed = 4
-            v.max_snake_speed = 12
-            v.max_start_amount_of_walls = 20
-            v.max_wall_random_length = v.block_size * 30
-            v.frames_between_speed_boosts = 300
-            v.increase_frames_between_speed_boosts = 0
-            v.max_start_amount_of_food = 10
-        v.snake_color = color
+            v.SNAKE_START_SPEED = 4
+            v.MAX_SNAKE_SPEED = 12
+            v.MAX_START_AMOUNT_OF_WALLS = 20
+            v.MAX_WALL_RANDOM_LENGTH = v.BLOCK_SIZE * 30
+            v.FRAMES_BETWEEN_SPEED_BOOSTS = 300
+            v.INCREASE_FRAMES_BETWEEN_SPEED_BOOSTS = 0
+            v.MAX_START_AMOUNT_OF_FOOD = 10
+        v.SNAKE_COLOR = color
         self.destroy()
         self.parent.deiconify()
