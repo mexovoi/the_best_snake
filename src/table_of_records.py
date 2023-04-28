@@ -9,15 +9,15 @@ class TableOfRecords(tk.Toplevel):
         super().__init__(parent)
         self.parent = parent
         self.title("Table Window")
-        self.geometry(f"{v.table_of_records_width}x{v.table_of_records_hight}+{v.table_of_records_left_bound}+{v.table_of_records_upper_bound}")
+        self.geometry(f"{v.TABLE_OF_RECORDS_WIDTH}x{v.TABLE_OF_RECORDS_HIGHT}+{v.TABLE_OF_RECORDS_LEFT_BOUND}+{v.TABLE_OF_RECORDS_UPPER_BOUND}")
 
         table = ttk.Treeview(self, columns=("place", "name", "score"), show="headings")
         style = ttk.Style()
-        style.configure("Treeview.Heading", background="gray", foreground=v.table_of_records_header_color)
-        style.configure("Treeview.Cell", font=(v.table_of_records_font, v.table_of_records_text_size))
-        style.configure("Treeview", background=v.table_of_records_background_color, foreground=v.table_of_records_text_color, rowheight=v.table_of_records_text_size * 2)
+        style.configure("Treeview.Heading", background="gray", foreground=v.TABLE_OF_RECORDS_HEADER_COLOR)
+        style.configure("Treeview.Cell", font=(v.TABLE_OF_RECORDS_FONT, v.TABLE_OF_RECORDS_TEXT_SIZE))
+        style.configure("Treeview", background=v.TABLE_OF_RECORDS_BACKGROUND_COLOR, foreground=v.TABLE_OF_RECORDS_TEXT_COLOR, rowheight=v.TABLE_OF_RECORDS_TEXT_SIZE * 2)
 
-        style.configure("Treeview.Heading", font=(v.table_of_records_header_font, v.table_of_records_header_size))
+        style.configure("Treeview.Heading", font=(v.TABLE_OF_RECORDS_HEADER_FONT, v.TABLE_OF_RECORDS_HEADER_SIZE))
         table.heading("place", text="Place")
         table.column("place", anchor="center")
         table.heading("name", text="Name")
@@ -34,7 +34,7 @@ class TableOfRecords(tk.Toplevel):
                 else:
                     place, name, score = i+1, line[:last_space_index], line[last_space_index+1:]
                 table.insert("", "end", values=(place, name, score), tags=("Treeview.Cell",))
-        table.tag_configure("Treeview.Cell", font=(v.table_of_records_font, v.table_of_records_text_size))
+        table.tag_configure("Treeview.Cell", font=(v.TABLE_OF_RECORDS_FONT, v.TABLE_OF_RECORDS_TEXT_SIZE))
         scrollbar = ttk.Scrollbar(self, orient="vertical", command=table.yview)
         table.configure(yscrollcommand=scrollbar.set)
         scrollbar.pack(side="right", fill="y")

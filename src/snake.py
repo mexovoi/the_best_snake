@@ -20,9 +20,9 @@ def signum(a: int):
         return 0
 
 def color(color, is_random_color):
-    '''если is_random_color True, то возвращает рандомый цвет из списка v.rainbow_colors, иначе возвращает переданный цвет color'''
+    '''если is_random_color True, то возвращает рандомый цвет из списка v.RAINBOW_COLORS, иначе возвращает переданный цвет color'''
     if is_random_color:
-        return random.choice(v.rainbow_colors)
+        return random.choice(v.RAINBOW_COLORS)
     else:
         return color
 
@@ -35,8 +35,8 @@ def draw_rect_around_point(display, color, width_of_zone, center: Vector2):
 
 def draw_rect_around_vector(display, color,  width_of_zone, start_point: Vector2, skeleton_of_rect: Vector2):
     '''отрисовка прямоугольника цвета color на display являющегося результатом движения квадрата с центром в start_point с длиной стороны width_of_zone * 2 вдоль вектора skeleton_of_rect'''
-    draw_rect_around_point(display, color, width_of_zone - v.snake_start_speed * v.beautiful_snake, start_point)
-    draw_rect_around_point(display, color, width_of_zone - v.snake_start_speed * v.beautiful_snake, start_point + skeleton_of_rect)
+    draw_rect_around_point(display, color, width_of_zone - v.SNAKE_START_SPEED * v.BEAUTIFUL_SNAKE, start_point)
+    draw_rect_around_point(display, color, width_of_zone - v.SNAKE_START_SPEED * v.BEAUTIFUL_SNAKE, start_point + skeleton_of_rect)
     if skeleton_of_rect.x == 0:
         pygame.draw.rect(display, color, make_rectangle(start_point.x, start_point.y, skeleton_of_rect.x + width_of_zone, skeleton_of_rect.y))
         pygame.draw.rect(display, color, make_rectangle(start_point.x, start_point.y, skeleton_of_rect.x - width_of_zone, skeleton_of_rect.y))
@@ -46,29 +46,29 @@ def draw_rect_around_vector(display, color,  width_of_zone, start_point: Vector2
 
 class Snake:
     def __init__(self):
-        '''инициализация змейки с заданием ее начальной скорости v.start_snake_speed с толщиной тела змейик v.block_size,
+        '''инициализация змейки с заданием ее начальной скорости v.start_snake_speed с толщиной тела змейик v.BLOCK_SIZE,
         начальным положением верхнего левого угла головы в self.head и начальной длиной змейки 0'''
-        self.snake_speed = v.snake_start_speed
-        self.block_size = v.block_size
-        self.head = Vector2(v.start_position_of_snake_x_coord, v.start_position_of_snake_y_coord)
+        self.snake_speed = v.SNAKE_START_SPEED
+        self.block_size = v.BLOCK_SIZE
+        self.head = Vector2(v.START_POSITION_OF_SNAKE_X_COORD, v.START_POSITION_OF_SNAKE_Y_COORD)
         self.snake_body = deque()
         self.length_of_snake = 0
     
     def clear_display_from_snake(self, display):
         '''очищение display от тела змейки self'''
-        pygame.draw.rect(display, v.background_color, [self.head.x, self.head.y, v.block_size, v.block_size])
-        current_piece_of_snake = self.head + Vector2(v.block_size // 2, v.block_size // 2)
+        pygame.draw.rect(display, v.BACKGROUND_COLOR, [self.head.x, self.head.y, v.BLOCK_SIZE, v.BLOCK_SIZE])
+        current_piece_of_snake = self.head + Vector2(v.BLOCK_SIZE // 2, v.BLOCK_SIZE // 2)
         for piece in range(len(self.snake_body) - 1, -1, -1):
             current_piece_of_snake -= self.snake_body[piece]
-            draw_rect_around_vector(display, v.background_color, v.block_size // 2, current_piece_of_snake, self.snake_body[piece])
+            draw_rect_around_vector(display, v.BACKGROUND_COLOR, v.BLOCK_SIZE // 2, current_piece_of_snake, self.snake_body[piece])
 
     def draw_snake(self, display):
         '''отрисовка тела змейки на display'''
-        pygame.draw.rect(display, color(v.snake_color, v.rainbow_snake), [self.head.x, self.head.y, v.block_size, v.block_size])
-        current_piece_of_snake = self.head + Vector2(v.block_size // 2, v.block_size // 2)
+        pygame.draw.rect(display, color(v.SNAKE_COLOR, v.RAINBOW_SNAKE), [self.head.x, self.head.y, v.BLOCK_SIZE, v.BLOCK_SIZE])
+        current_piece_of_snake = self.head + Vector2(v.BLOCK_SIZE // 2, v.BLOCK_SIZE // 2)
         for piece in range(len(self.snake_body) - 1, -1, -1):
             current_piece_of_snake -= self.snake_body[piece]
-            draw_rect_around_vector(display, color(v.snake_color, v.rainbow_snake), v.block_size // 2, current_piece_of_snake, self.snake_body[piece])
+            draw_rect_around_vector(display, color(v.SNAKE_COLOR, v.RAINBOW_SNAKE), v.BLOCK_SIZE // 2, current_piece_of_snake, self.snake_body[piece])
 
     def move_snake(self, change_vector: Vector2):
         '''подвинуть змейку на вектор change_vector'''
@@ -95,11 +95,11 @@ class Snake:
             copy_head.y += change_vector.y
             copy_change_vector.y *= -1
         if change_vector.x == 0:
-            copy_change_vector.x = v.block_size
-            copy_change_vector.y = max(copy_change_vector.y, v.block_size)
+            copy_change_vector.x = v.BLOCK_SIZE
+            copy_change_vector.y = max(copy_change_vector.y, v.BLOCK_SIZE)
         if change_vector.y == 0:
-            copy_change_vector.y = v.block_size
-            copy_change_vector.x = max(copy_change_vector.x, v.block_size)
+            copy_change_vector.y = v.BLOCK_SIZE
+            copy_change_vector.x = max(copy_change_vector.x, v.BLOCK_SIZE)
         return pygame.Rect([copy_head.x, copy_head.y, copy_change_vector.x, copy_change_vector.y])
 
     def intersect_walls(self, walls, change_vector: Vector2):
@@ -140,19 +140,19 @@ class Snake:
     
     def intersect_self(self, change_vector: Vector2):
         '''проверка змейки на самопересечение при сдвиге на change_vector, считается, что змейка уже была сдвинута'''
-        if self.length_of_snake == 0 or len(self.snake_body) == 0 or abs(self.snake_body[-1].x) == v.block_size or abs(self.snake_body[-1].y) == v.block_size:
+        if self.length_of_snake == 0 or len(self.snake_body) == 0 or abs(self.snake_body[-1].x) == v.BLOCK_SIZE or abs(self.snake_body[-1].y) == v.BLOCK_SIZE:
             return False
         if change_vector.x == 0 and change_vector.y > 0:
-            new_piece_of_snake = make_rectangle(-v.block_size // 2, v.block_size // 2 - change_vector.y, v.block_size, change_vector.y)
+            new_piece_of_snake = make_rectangle(-v.BLOCK_SIZE // 2, v.BLOCK_SIZE // 2 - change_vector.y, v.BLOCK_SIZE, change_vector.y)
         elif change_vector.x == 0 and change_vector.y < 0:
-            new_piece_of_snake = make_rectangle(-v.block_size // 2, -v.block_size // 2, v.block_size, -change_vector.y)
+            new_piece_of_snake = make_rectangle(-v.BLOCK_SIZE // 2, -v.BLOCK_SIZE // 2, v.BLOCK_SIZE, -change_vector.y)
         elif change_vector.x < 0 and change_vector.y == 0:
-            new_piece_of_snake = make_rectangle(-v.block_size // 2, -v.block_size // 2, -change_vector.x, v.block_size)
+            new_piece_of_snake = make_rectangle(-v.BLOCK_SIZE // 2, -v.BLOCK_SIZE // 2, -change_vector.x, v.BLOCK_SIZE)
         elif change_vector.x > 0 and change_vector.y == 0:
-            new_piece_of_snake = make_rectangle(v.block_size // 2 - change_vector.x, -v.block_size // 2, change_vector.x, v.block_size)
+            new_piece_of_snake = make_rectangle(v.BLOCK_SIZE // 2 - change_vector.x, -v.BLOCK_SIZE // 2, change_vector.x, v.BLOCK_SIZE)
         current_piece_of_snake = -self.snake_body[-1]
         for piece in range(len(self.snake_body) - 2, -1, -1):
             current_piece_of_snake -= self.snake_body[piece]
-            if intersect_rect_with_rect_around_vector(new_piece_of_snake, v.block_size // 2, current_piece_of_snake, self.snake_body[piece]):
+            if intersect_rect_with_rect_around_vector(new_piece_of_snake, v.BLOCK_SIZE // 2, current_piece_of_snake, self.snake_body[piece]):
                 return True
         return False

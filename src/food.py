@@ -8,13 +8,13 @@ from src.rect_functions import *
 class Food:
     def __init__(self):
         '''инициализация еды'''
-        self.rectangle = pygame.Rect([0, 0, v.block_size, v.block_size])
-        self.color = v.food_colors
+        self.rectangle = pygame.Rect([0, 0, v.BLOCK_SIZE, v.BLOCK_SIZE])
+        self.color = v.FOOD_COLORS
 
     def randomize_food(self):
         '''создание рандомной еды с рандомным расположением прямоугольника и с рандомным выбором цвета'''
-        self.rectangle = pygame.Rect([random.randint(v.border_width, v.width_of_screen - v.border_width), random.randint(v.border_width, v.width_of_screen - v.border_width), v.block_size, v.block_size])
-        self.color = random.choice(v.food_colors)
+        self.rectangle = pygame.Rect([random.randint(v.BORDER_WIDTH, v.WIDTH_OF_SCREEN - v.BORDER_WIDTH), random.randint(v.BORDER_WIDTH, v.WIDTH_OF_SCREEN - v.BORDER_WIDTH), v.BLOCK_SIZE, v.BLOCK_SIZE])
+        self.color = random.choice(v.FOOD_COLORS)
         return self
 
     def draw_food(self, display):
@@ -23,7 +23,7 @@ class Food:
     
     def clear_food(self, display):
         '''очистка display от еды'''
-        pygame.draw.rect(display, v.background_color, self.rectangle)
+        pygame.draw.rect(display, v.BACKGROUND_COLOR, self.rectangle)
 
     def intersect_level(self, level):
         '''проверка на пересечение еды с другими объектами из уровня level'''
@@ -40,27 +40,27 @@ class Food:
     
     def intersect_snake(self, snake):
         '''проверка на пересечение еды со змейкой snake'''
-        piece = pygame.Rect([snake.head.x, snake.head.y, v.block_size, v.block_size])
+        piece = pygame.Rect([snake.head.x, snake.head.y, v.BLOCK_SIZE, v.BLOCK_SIZE])
         if self.rectangle.colliderect(piece):
             return True
-        current_piece_of_snake = snake.head + Vector2(v.block_size // 2, v.block_size // 2)
+        current_piece_of_snake = snake.head + Vector2(v.BLOCK_SIZE // 2, v.BLOCK_SIZE // 2)
         for piece in range(len(snake.snake_body) - 1, -1, -1):
             current_piece_of_snake -= snake.snake_body[piece]
-            if intersect_rect_with_rect_around_vector(self.rectangle, v.block_size // 2, current_piece_of_snake, snake.snake_body[piece]):
+            if intersect_rect_with_rect_around_vector(self.rectangle, v.BLOCK_SIZE // 2, current_piece_of_snake, snake.snake_body[piece]):
                 return True
         return False
 
 
     def spawn_food_well_in_game(self, level, snake):
         '''создание еды на уровне level, где находится змейка snake таким образом, чтобы еда не пересесекалась ни с одним объектом из level, ни со змейкой,
-        при неудачном количестве попыток генерации, не превышающем v.max_unsuccessful_attemts_for_food_spawn, возвращает сгенерированную еду, иначе None
+        при неудачном количестве попыток генерации, не превышающем v.MAX_UNSUCCESSFUL_ATTEMTS_FOR_FOOD_SPAWN, возвращает сгенерированную еду, иначе None
         используется во время активного игрового процесса'''
         new_food = Food().randomize_food()
         count = 0
-        while ((new_food.intersect_level(level) or new_food.intersect_snake(snake)) and count < v.max_unsuccessful_attemts_for_food_spawn):
+        while ((new_food.intersect_level(level) or new_food.intersect_snake(snake)) and count < v.MAX_UNSUCCESSFUL_ATTEMTS_FOR_FOOD_SPAWN):
             new_food = Food().randomize_food()
             count += 1
-        if count < v.max_unsuccessful_attemts_for_food_spawn:
+        if count < v.MAX_UNSUCCESSFUL_ATTEMTS_FOR_FOOD_SPAWN:
             level.level_food.append(new_food)
             return new_food
         return None
@@ -68,13 +68,13 @@ class Food:
     def spawn_food_well(self, level):
         '''создание еды на уровне level до начала игры, то есть на этапе генерации уровня
         создание еды на уровне level таким образом, чтобы еда не пересесекалась ни с одним объектом из level, ни со змейкой,
-        при неудачном количестве попыток генерации, не превышающем v.max_unsuccessful_attemts_for_food_spawn, возвращает сгенерированную еду, иначе None'''
+        при неудачном количестве попыток генерации, не превышающем v.MAX_UNSUCCESSFUL_ATTEMTS_FOR_FOOD_SPAWN, возвращает сгенерированную еду, иначе None'''
         new_food = Food().randomize_food()
         count = 0
-        while (new_food.intersect_level(level) and count < v.max_unsuccessful_attemts_for_food_spawn):
+        while (new_food.intersect_level(level) and count < v.MAX_UNSUCCESSFUL_ATTEMTS_FOR_FOOD_SPAWN):
             new_food = Food().randomize_food()
             count += 1
-        if count < v.max_unsuccessful_attemts_for_food_spawn:
+        if count < v.MAX_UNSUCCESSFUL_ATTEMTS_FOR_FOOD_SPAWN:
             level.level_food.append(new_food)
             return new_food
         return None
